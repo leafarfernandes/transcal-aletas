@@ -53,7 +53,7 @@
 import { ref, computed, watchEffect, nextTick, onUnmounted } from 'vue';
 import * as Plotly from 'plotly.js-dist-min';
 
-// Aki ficam as reatividades, parâmetros iniciais pro usuario
+// Aki ficam as reatividades, que sao os parâmetros iniciais pro usuario colocar
 const h = ref('');
 const k = ref('');
 const t = ref('');
@@ -61,12 +61,13 @@ const L = ref('');
 const errors = ref({ h: '', k: '', t: '', L: '' });
 const plotInstance = ref(null);
 
-// As validaçoes dos parametros
+// Aki as validaçoes dos parametros
 const isValid = computed(() => {
   const numericValues = [h, k, t, L].every(v => 
     !isNaN(Number(v.value)) && Number(v.value) > 0
   );
   
+  // Pesquisei valores usuais para os parametros e colocados aki
   return numericValues && 
     Number(h.value) >= 0.1 && Number(h.value) <= 10000 &&
     Number(k.value) >= 0.02 && Number(k.value) <= 500 &&
@@ -74,7 +75,7 @@ const isValid = computed(() => {
     Number(L.value) >= 0.01 && Number(L.value) <= 10;
 });
 
-// As equaçoes pro calculo e determinar a eficiencia da aleta!!
+// Aki ficam parametros das equaçoes pro calculo e determinar a eficiencia da aleta
 const Lc = computed(() => {
   return isValid.value ? Number(L.value) + (Number(t.value) / 2) : 0;
 });
@@ -88,7 +89,7 @@ const m = computed(() => {
 const efficiency = computed(() => {
   if (!isValid.value) return 0;
   const mLc = m.value * Lc.value;
-  return mLc !== 0 ? Math.tanh(mLc) / mLc : 0; // importante evitar divisoes por 0
+  return mLc !== 0 ? Math.tanh(mLc) / mLc : 0; // importante pra evitar divisoes por 0 !!
 });
 
 // Pra plotagem do grafico
@@ -133,21 +134,36 @@ const updatePlot = async () => {
     };
 
     const layout = {
-      title: 'Eficiência vs Comprimento',
-      xaxis: { title: 'Comprimento (m)', range: [0, Number(L.value)] },
-      yaxis: { title: 'Eficiência', range: [0, 1.1] },
-      showlegend: true,
-      margin: {
-        l: 50,
-        r: 20,
-        b: 50,
-        t: 40,
-        pad: 4
-      },
-      font: {
-        size: window.innerWidth < 768 ? 10 : 12
-      }
-    };
+  title: {
+    text: 'Eficiência vs Comprimento',
+    font: {
+      size: 18
+    }
+  },
+  xaxis: {
+    title: {
+      text: 'Comprimento (m)'
+    },
+    range: [0, Number(L.value)]
+  },
+  yaxis: {
+    title: {
+      text: 'Eficiência'
+    },
+    range: [0, 1.1]
+  },
+  showlegend: true,
+  margin: {
+    l: 50,
+    r: 20,
+    b: 50,
+    t: 80,
+    pad: 4
+  },
+  font: {
+    size: window.innerWidth < 768 ? 10 : 12
+  }
+};
 
     if (plotInstance.value) {
       Plotly.react('plot-container', [trace, currentPoint], layout);
@@ -213,7 +229,6 @@ input {
   width: 100%;
 }
 
-/* Mensagens de erro embaixo do input */
 .input-error {
   color: #dc3545;
   font-size: 0.875rem;
@@ -225,7 +240,6 @@ input {
   text-align: center;
 }
 
-/* Container de resultados */
 .results {
   margin-top: 2rem;
   padding: 1rem;
@@ -238,7 +252,6 @@ input {
   align-items: center;
 }
 
-/* Gráfico Plotly */
 #plot-container {
   width: 100%;
   max-width: 600px;
@@ -246,7 +259,6 @@ input {
   margin: 1rem auto 0;
 }
 
-/* Mensagem de erro geral */
 .error {
   color: #dc3545;
   padding: 1rem;
@@ -258,21 +270,17 @@ input {
   max-width: 90%;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
-  /* Em telas até 768px, forçamos apenas 1 coluna de inputs */
   .input-group {
     grid-template-columns: 1fr;
   }
 
-  /* Para telas menores, permitimos que o gráfico ocupe toda a largura */
   #plot-container {
     max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  /* Ajustes adicionais para telas muito pequenas */
   .input-group {
     grid-template-columns: 1fr;
     display: grid;
