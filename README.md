@@ -69,12 +69,13 @@ npm install
 npm run serve
 ```
 ### O terminal exibirá um link do tipo http://localhost:3000/ ou http://localhost:8080/. Abra esse link no seu navegador.
+
+## Caso não consiga ainda assim, são necessários:
 ```
-1. Caso não consiga ainda assim, são necessários:
-2. Instalar algum editor de código (Visual Studio Code, Atom, Sublime Text, Vim etc..)
-3. Criar pasta
-4. Instalar o Node.js
-5. Instalar o Vue.js 3
-6. Implementar o algoritmo da mesma forma da estrutura do atual projeto
-7. Executar "npm run serve" na pasta local
+1. Instalar algum editor de código (Visual Studio Code, Atom, Sublime Text, Vim etc..)
+2. Criar uma pasta
+3. Instalar o Node.js
+4. Instalar o Vue.js 3
+5. Implementar o algoritmo da mesma forma da estrutura do atual projeto
+6. Executar "npm run serve" na pasta local
 ```
