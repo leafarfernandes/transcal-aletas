@@ -1,4 +1,3 @@
-<!-- AletasCalc.vue -->
 <template>
   <div class="container">
     <h1>Análise de Eficiência de Aletas Retangulares Retas</h1>
